@@ -37,6 +37,10 @@ shinyUI(fluidPage(
                         label = "Number of clusters",
                         value = 4, min = 1, max = 12,
                         step = 1),
+            numericInput(inputId = "alpha", 
+                        label = "Value of alpha",
+                        value = 0.05, min = 0, max = 1,
+                        step = 0.01),
             checkboxInput(inputId = "showCenter", 
                           label = "Show resulting cluster centers", 
                           value = TRUE)
@@ -46,7 +50,7 @@ shinyUI(fluidPage(
         mainPanel(
             h2("Baldvin Einarsson, PhD"),
             h2("Visualization"),
-            helpText(a("See github page for details on initialization methods (and code!)",
+            helpText(a("See github page for details on code",
                        href = "https://github.com/baldvine/trimmedKmeans",
                        target = "_blank")
             ),

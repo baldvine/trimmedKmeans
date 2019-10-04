@@ -56,11 +56,12 @@ shinyServer(function(input, output) {
     
     # Get number of clusters:
     numClusters <- reactive({input$numCluster})
-    
+    # Get value of alpha:
+    myAlpha <- reactive({input$alpha})
     
     kMeansSolution <- reactive({
         return(tclust::tkmeans(x = data2use(), k = numClusters(),
-                               nstart = 25, 
+                               nstart = 25, alpha = myAlpha(),
                                drop.empty.clust = FALSE, 
                                warnings = FALSE))            
     })
