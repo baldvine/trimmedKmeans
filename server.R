@@ -107,8 +107,8 @@ shinyServer(function(input, output) {
                    shape = guide_legend(title = "Type", order = 1,
                                         override.aes = list(size=3, alpha = 1))) +
             theme(plot.title = element_text(hjust = 0.5),
-                  legend.title = element_text(size = 16), 
-                  legend.text = element_text(size = 14),
+                  legend.title = element_text(size = 18), 
+                  legend.text = element_text(size = 16),
                   legend.box.background = element_rect(fill = NA, color = "black"),
                   legend.background = element_blank(),
                   legend.key = element_blank(),
