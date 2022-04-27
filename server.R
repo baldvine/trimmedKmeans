@@ -99,7 +99,7 @@ shinyServer(function(input, output) {
                 ggthemes::tableau_color_pal(palette = "Classic Green-Orange 12")(12))) +
             #scale_color_brewer(palette = "Set1") + 
             scale_alpha_manual(values = c(plotAlpha(), 1), guide = "none") +
-            scale_shape_manual(values = c(16,75)) +
+            scale_shape_manual(values = c("Data" = 16,"Centers" = 75)) +
             scale_size_manual(values = c(4,7), guide = "none") +
             guides(color = guide_legend(title = "Cluster", 
                                         override.aes = list(size=4, alpha = 1), 
