@@ -54,6 +54,15 @@ shinyServer(function(input, output) {
         }
         })
     
+    plotAlpha <- reactive({
+        if (input$dataSet == "xclara") {
+            return(0.2)
+        }
+        else {
+            return(0.5)
+        }
+    })
+    
     # Get number of clusters:
     numClusters <- reactive({input$numCluster})
     # Get value of alpha:
@@ -83,23 +92,40 @@ shinyServer(function(input, output) {
         }
         
         myPlot <- 
-            ggplot(data = myDF, aes(x,y, color = cluster, shape = Type, size = Type)) +
-            geom_point(alpha = 1) +
+            ggplot(data = myDF, aes(x,y, color = cluster, shape = Type, size = Type, alpha = Type)) +
+            geom_point() +
             #scale_color_manual(values = c("red", brewer.pal(8, "Dark2"))) +
             scale_color_manual(values = c("red", 
                 ggthemes::tableau_color_pal(palette = "Classic Green-Orange 12")(12))) +
             #scale_color_brewer(palette = "Set1") + 
-            scale_shape_manual(values = c(20,8)) +
-            scale_size_manual(values = c(4,7), guide = FALSE) +
+            scale_alpha_manual(values = c(plotAlpha(), 1), guide = "none") +
+            scale_shape_manual(values = c(16,75)) +
+            scale_size_manual(values = c(4,7), guide = "none") +
             guides(color = guide_legend(title = "Cluster", 
-                                        override.aes = list(size=2), 
+                                        override.aes = list(size=4, alpha = 1), 
                                         order = 2),
                    shape = guide_legend(title = "Type", order = 1,
-                                        override.aes = list(size=2))) +
-            theme_bw() +
-            theme(plot.title = element_text(hjust = 0.5), 
-                  legend.title = element_text(size = 14), 
-                  legend.text = element_text(size = 12))
+                                        override.aes = list(size=3, alpha = 1))) +
+            theme(plot.title = element_text(hjust = 0.5),
+                  legend.title = element_text(size = 16), 
+                  legend.text = element_text(size = 14),
+                  legend.box.background = element_rect(fill = NA, color = "black"),
+                  legend.background = element_blank(),
+                  legend.key = element_blank(),
+                  axis.title = element_text(size = 20),
+                  axis.text = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.background = element_rect(fill = "white", colour = NA), 
+                  panel.border = element_rect(fill = NA, colour = "grey20")) +
+            coord_equal()
+        
+        if (showResultCenters) {  
+            # Shows up as black. If removed, they get colored according to the cluster
+            myPlot <- myPlot +
+                geom_point(data = myDF[grepl("Centers", myDF$Type),], 
+                           inherit.aes = FALSE, aes(x,y),
+                           size = 5, show.legend = FALSE, color = "black", shape = "K")
+        }
         
         #        generate bins based on input$bins from ui.R
         # x    <- faithful[, 2] 
